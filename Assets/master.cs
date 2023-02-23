@@ -32,7 +32,7 @@ public class master : MonoBehaviour
     private void Update()
     {
         prompt = FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples.GCSR_Example.getResponse();
-        if (prompt != null && prompt != prevPrompt && questionCount < questions.Length)
+        if (prompt != null && prompt != prevPrompt)
         {
             prevPrompt = prompt;
             Debug.Log("New Prompt = " + prompt);
@@ -49,8 +49,9 @@ public class master : MonoBehaviour
         Debug.Log("Running");
         try
         {
-            
-            conversation += "Applicant (" + applicantType + ") : " + prompt + "\n Interviewer (responds and asks about " + questions[questionCount] +"): ";
+            string p = "";
+            if (questionCount < questions.Length) p = " ( " + questions[questionCount] + " ) ";
+            conversation += "Applicant (" + applicantType + ") : " + prompt + "\n Interviewer " + p +" : ";
             questionCount++;
             var api = new OpenAIClient(OpenAIAuthentication.LoadFromEnv());
             var result = await api.CompletionsEndpoint.CreateCompletionAsync(conversation, temperature: 0.3, model: Model.Davinci, maxTokens: 1024);

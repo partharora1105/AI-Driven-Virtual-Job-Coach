@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dce2cc042147c764aa94b0c93c9485c1, type: 3}
   m_Name: GeneralConfig
   m_EditorClassIdentifier: 
-  showWelcomeDialogAtStartup: 1
+  showWelcomeDialogAtStartup: 0
   betaAPI: 1
   packageName: 
   keySignature: 

@@ -35,6 +35,8 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 
 		private static string customResponse;
 
+		public GameObject cutImage;
+
 		private void Start()
 		{
 			_speechRecognition = GCSpeechRecognition.Instance;
@@ -126,30 +128,30 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 
 		private void Update()
 		{
-			if (_speechRecognition.IsRecording)
-			{
-				if (_speechRecognition.GetMaxFrame() > 0)
-				{
-					float max = (float)_speechRecognition.configs[_speechRecognition.currentConfigIndex].voiceDetectionThreshold;
-					float current = _speechRecognition.GetLastFrame() / max;
+            if (_speechRecognition.IsRecording)
+            {
+                if (_speechRecognition.GetMaxFrame() > 0)
+                {
+                    float max = (float)_speechRecognition.configs[_speechRecognition.currentConfigIndex].voiceDetectionThreshold;
+                    float current = _speechRecognition.GetLastFrame() / max;
 
-					if (current >= 1f)
-					{
-						_voiceLevelImage.fillAmount = Mathf.Lerp(_voiceLevelImage.fillAmount, Mathf.Clamp(current / 2f, 0, 1f), 30 * Time.deltaTime);
-					}
-					else
-					{
-						_voiceLevelImage.fillAmount = Mathf.Lerp(_voiceLevelImage.fillAmount, Mathf.Clamp(current / 2f, 0, 0.5f), 30 * Time.deltaTime);
-					}
+                    if (current >= 1f)
+                    {
+                        _voiceLevelImage.fillAmount = Mathf.Lerp(_voiceLevelImage.fillAmount, Mathf.Clamp(current / 2f, 0, 1f), 30 * Time.deltaTime);
+                    }
+                    else
+                    {
+                        _voiceLevelImage.fillAmount = Mathf.Lerp(_voiceLevelImage.fillAmount, Mathf.Clamp(current / 2f, 0, 0.5f), 30 * Time.deltaTime);
+                    }
 
-					_voiceLevelImage.color = current >= 1f ? Color.green : Color.red;
-				}
-			}
-			else
-			{
-				_voiceLevelImage.fillAmount = 0f;
-			}
-		}
+                    _voiceLevelImage.color = current >= 1f ? Color.green : Color.red;
+                }
+            }
+            else
+            {
+                _voiceLevelImage.fillAmount = 0f;
+            }
+        }
 
 		private void RefreshMicsButtonOnClickHandler()
 		{
@@ -176,12 +178,29 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 
 		private void StartRecordButtonOnClickHandler()
 		{
-			_startRecordButton.interactable = false;
-			_stopRecordButton.interactable = true;
-			_detectThresholdButton.interactable = false;
-			_resultText.text = string.Empty;
+			//_startRecordButton.interactable = false;
+			//_stopRecordButton.interactable = true;
+			//_detectThresholdButton.interactable = false;
+			//_resultText.text = string.Empty;
 
-			_speechRecognition.StartRecord(_voiceDetectionToggle.isOn);
+			//_speechRecognition.StartRecord(_voiceDetectionToggle.isOn);
+
+			if (_detectThresholdButton.interactable)
+            {
+				//_startRecordButton.interactable = false;
+				Debug.Log("Unmute");
+				cutImage.SetActive(false);
+				_speechRecognition.StartRecord(_voiceDetectionToggle.isOn);
+				_detectThresholdButton.interactable = false;
+				_resultText.text = string.Empty;
+			} else
+            {
+				Debug.Log("Mute");
+				cutImage.SetActive(true);
+				_startRecordButton.interactable = true;
+				_detectThresholdButton.interactable = true;
+				_speechRecognition.StopRecord();
+			}
 		}
 
 		private void StopRecordButtonOnClickHandler()

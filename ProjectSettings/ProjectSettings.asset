@@ -808,7 +808,7 @@ PlayerSettings:
     PS4: FG_GCSR;FG_GCTTS
     PS5: FG_GCSR;FG_GCTTS
     Stadia: FG_GCSR;FG_GCTTS
-    Standalone: FG_GCSR;FG_GCTTS
+    Standalone: FG_GCSR;FG_GCTTS;READY_PLAYER_ME
     WebGL: FG_GCSR;FG_GCTTS
     Windows Store Apps: FG_GCSR;FG_GCTTS
     XboxOne: FG_GCSR;FG_GCTTS
