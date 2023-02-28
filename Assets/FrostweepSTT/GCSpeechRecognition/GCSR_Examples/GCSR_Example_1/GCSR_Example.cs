@@ -37,6 +37,9 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 
 		public GameObject cutImage;
 
+		public GameObject manager;
+
+
 		private void Start()
 		{
 			_speechRecognition = GCSpeechRecognition.Instance;
@@ -193,6 +196,7 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 				_speechRecognition.StartRecord(_voiceDetectionToggle.isOn);
 				_detectThresholdButton.interactable = false;
 				_resultText.text = string.Empty;
+				manager.GetComponent<master>().unmuted();
 			} else
             {
 				Debug.Log("Mute");

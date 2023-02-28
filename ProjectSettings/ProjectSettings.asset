@@ -809,7 +809,7 @@ PlayerSettings:
     PS5: FG_GCSR;FG_GCTTS
     Stadia: FG_GCSR;FG_GCTTS
     Standalone: FG_GCSR;FG_GCTTS;READY_PLAYER_ME
-    WebGL: FG_GCSR;FG_GCTTS
+    WebGL: FG_GCSR;FG_GCTTS;READY_PLAYER_ME
     Windows Store Apps: FG_GCSR;FG_GCTTS
     XboxOne: FG_GCSR;FG_GCTTS
     iPhone: FG_GCSR;FG_GCTTS
