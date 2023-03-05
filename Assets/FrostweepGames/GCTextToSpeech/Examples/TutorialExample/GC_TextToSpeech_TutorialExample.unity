@@ -2892,7 +2892,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114599950165526744, guid: 0fef363bbb9f4a426a5e8c1e5ed946a7, type: 3}
       propertyPath: apiKey
-      value: AIzaSyC24XSuy6Y5bTrwoqPptrR0xfUp24Xs3bY
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fef363bbb9f4a426a5e8c1e5ed946a7, type: 3}
