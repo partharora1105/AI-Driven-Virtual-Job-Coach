@@ -375,7 +375,16 @@ namespace FrostweepGames.Plugins.GoogleCloud.SpeechRecognition.Examples
 		{
 			_resultText.text = "Recognize Success.";
 			InsertRecognitionResponseInfo(recognitionResponse);
-			customResponse = recognitionResponse.results[0].alternatives[0].transcript;
+            try
+            {
+				customResponse = recognitionResponse.results[0].alternatives[0].transcript;
+			}
+			catch(IndexOutOfRangeException e)
+            {
+				customResponse = "Can you repeat?";
+
+            }
+			
 		}
 
 		private void LongRunningRecognizeSuccessEventHandler(Operation operation)

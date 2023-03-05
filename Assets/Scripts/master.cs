@@ -23,6 +23,7 @@ public class master : MonoBehaviour
     static WebCamTexture backCam;
     public GameObject camScreen;
     public GameObject virtualScreen;
+    public GameObject openAi;
     // Start is called before the first frame update
     void Start()
     {
@@ -73,8 +74,12 @@ public class master : MonoBehaviour
             if (questionCount < questions.Length) p = " ( " + questions[questionCount] + " ) ";
             conversation += "Applicant (" + applicantType + ") : " + prompt + "\n Job Coach (only replies to applicants and the waits for a response) " + p +" : ";
             questionCount++;
-            var api = new OpenAIClient(OpenAIAuthentication.LoadFromEnv());
-            var result = await api.CompletionsEndpoint.CreateCompletionAsync(conversation, temperature: 0.3, model: Model.Davinci, maxTokens: 1024);
+            //var api = new OpenAIClient(OpenAIAuthentication.LoadFromEnv());
+            var api = new OpenAIClient(openAi.GetComponent<OpenAIKey>().getKey());
+            var output = await api.CompletionsEndpoint.CreateCompletionAsync(conversation, temperature: 0.3, model: Model.Davinci, maxTokens: 1024);
+            string result = output.ToString();
+            var indexCheck = result.IndexOf("Applicant");
+            if (indexCheck != -1) result = result.Substring(0, indexCheck);
             conversation += result.ToString().Trim() + "\n";
             chatStr = "Job Coach : " + result.ToString().Trim() + "\n";
             chatContent.text = chatStr;
@@ -105,7 +110,7 @@ public class master : MonoBehaviour
         {
             prevPrompt = prompt;
             Debug.Log("New Prompt = " + prompt);
-            chatStr += "You : " + prompt + "\n";
+            chatStr += "\nYou : " + prompt + "\n";
             chatContent.text = chatStr;
             StartAsync();
         }
