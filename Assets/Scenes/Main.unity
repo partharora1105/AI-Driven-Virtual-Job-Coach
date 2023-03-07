@@ -840,7 +840,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &94156961
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2574,6 +2574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: 
+  orgID: 
 --- !u!1 &275481456
 GameObject:
   m_ObjectHideFlags: 0
@@ -12509,16 +12510,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a9d3bfbb79c34f6c92e00466913a072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputChat: {fileID: 101782894}
-  convoTextBox: {fileID: 1030661081}
-  chatContent: {fileID: 887433512}
-  chatWrapper: {fileID: 905517067}
   startPromptInterviewer: Hi, I am your job coach. How are you doing today?
   applicantType: Intellectually disable with speech impairment
   questions: []
+  toggleCamera: 0
   camScreen: {fileID: 94156960}
   virtualScreen: {fileID: 1701897067}
   openAi: {fileID: 263644387}
+  convoTextBox: {fileID: 1030661081}
+  chatContent: {fileID: 887433512}
+  chatWrapper: {fileID: 905517067}
+  inputChat: {fileID: 101782894}
 --- !u!82 &1554048988
 AudioSource:
   m_ObjectHideFlags: 0

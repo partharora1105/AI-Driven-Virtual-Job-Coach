@@ -7,23 +7,28 @@ using UnityEngine;
 
 public class master : MonoBehaviour
 {
+    [Header("Settings")]
+    [SerializeField] private string startPromptInterviewer;
+    [SerializeField] private string applicantType;
+    [SerializeField] private string[] questions;
+    [SerializeField] private bool toggleCamera;
+    [Header("References")]
+    [SerializeField] private GameObject camScreen;
+    [SerializeField] private GameObject virtualScreen;
+    [SerializeField] private GameObject openAi;
+    [SerializeField] private TextMeshProUGUI convoTextBox;
+    [SerializeField] private TextMeshProUGUI chatContent;
+    [SerializeField] private GameObject chatWrapper;
+    [SerializeField] private TMP_InputField inputChat;
     private string prompt;
     private string prevPrompt;
-    public TMP_InputField inputChat;
     private string conversation;
-    public TextMeshProUGUI convoTextBox;
-    public TextMeshProUGUI chatContent;
-    public GameObject chatWrapper;
     private string chatStr;
-    public string startPromptInterviewer;
-    public string applicantType;
-    public string[] questions;
     private int questionCount;
     private int startDelay;
     static WebCamTexture backCam;
-    public GameObject camScreen;
-    public GameObject virtualScreen;
-    public GameObject openAi;
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -37,10 +42,11 @@ public class master : MonoBehaviour
         if (backCam == null) backCam = new WebCamTexture();
         camScreen.GetComponent<Renderer>().material.mainTexture = backCam;
         if (!backCam.isPlaying) backCam.Play();
-        virtualScreen.SetActive(false);
-        camScreen.SetActive(true);
-        
-
+        if (toggleCamera)
+        {
+            virtualScreen.SetActive(false);
+            camScreen.SetActive(true);
+        }
     }
     private void Update()
     {
@@ -59,8 +65,11 @@ public class master : MonoBehaviour
         gameObject.GetComponent<FrostweepGames.Plugins.GoogleCloud.TextToSpeech.GC_TextToSpeech_TutorialExample>().speak(startPromptInterviewer);
         chatStr = "Job Coach : " + startPromptInterviewer + "\n";
         chatContent.text = chatStr;
-        virtualScreen.SetActive(true);
-        camScreen.SetActive(false);
+        if (toggleCamera)
+        {
+            virtualScreen.SetActive(true);
+            camScreen.SetActive(false);
+        }
     }
 
     async Task StartAsync()
@@ -68,15 +77,22 @@ public class master : MonoBehaviour
         Debug.Log("Running");
         try
         {
-            virtualScreen.SetActive(true);
-            camScreen.SetActive(false);
+            if (toggleCamera)
+            {
+                virtualScreen.SetActive(true);
+                camScreen.SetActive(false);
+            }
             string p = "";
             if (questionCount < questions.Length) p = " ( " + questions[questionCount] + " ) ";
             conversation += "Applicant (" + applicantType + ") : " + prompt + "\n Job Coach (only replies to applicants and the waits for a response) " + p +" : ";
             questionCount++;
             //var api = new OpenAIClient(OpenAIAuthentication.LoadFromEnv());
-            var api = new OpenAIClient(openAi.GetComponent<OpenAIKey>().getKey());
+            
+            var api = new OpenAIClient(new OpenAIAuthentication(openAi.GetComponent<OpenAIKey>().getKey(), openAi.GetComponent<OpenAIKey>().getId()));
+            //var api = new OpenAIClient(openAi.GetComponent<OpenAIKey>().getKey());
+            //var api = new OpenAIClient("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");
             var output = await api.CompletionsEndpoint.CreateCompletionAsync(conversation, temperature: 0.3, model: Model.Davinci, maxTokens: 1024);
+            Debug.Log(output);
             string result = output.ToString();
             var indexCheck = result.IndexOf("Applicant");
             if (indexCheck != -1) result = result.Substring(0, indexCheck);
@@ -120,8 +136,11 @@ public class master : MonoBehaviour
 
     public void unmuted()
     {
-        virtualScreen.SetActive(false);
-        camScreen.SetActive(true);
+        if (toggleCamera)
+        {
+            virtualScreen.SetActive(false);
+            camScreen.SetActive(true);
+        }
     }
 
 }
